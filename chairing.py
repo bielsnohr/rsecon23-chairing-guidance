@@ -124,9 +124,11 @@ def generate_infosheet_contents(session, talks):
 
 def get_filename(session):
     if isinstance(session['Confirmed chair'], str):
-        return session['Session'] + '.pdf'
+        filename =  session['Confirmed chair'] + ' - ' + session['Session'] + '.pdf'
     else:
-        return session['Confirmed chair'] + ' - ' + session['Session'] + '.pdf'
+        filename = session['Session'] + '.pdf'
+
+    return filename.replace('/', '_')
 
 
 def get_talks(session, talks):
