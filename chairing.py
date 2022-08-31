@@ -121,7 +121,7 @@ def tabulate(talks):
 
 def generate_infosheet_contents(session, talks):
     doc_contents = format_elements(BASE_DOC, session)
-    if session["Has panel"]:
+    if session["Has panel"] == "Yes":
         doc_contents.extend(format_elements(PANEL_SECTION, session))
         doc_contents.append(PageBreak())
 
