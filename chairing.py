@@ -4,28 +4,32 @@ from io import BytesIO
 
 from pandas import read_csv
 
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table
+from reportlab.platypus import SimpleDocTemplate, PageBreak, Paragraph, Table
 from reportlab.lib.colors import CMYKColor
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import mm
 
 styles = getSampleStyleSheet()
+styles['Heading1'].spaceBefore = 12
+styles['Heading1'].spaceAfter = 0
+styles['Heading1'].fontSize = 14
+
 black = CMYKColor(0, 0, 0, 1)
 
 
 BASE_DOC = [
     'Dear {chair},',
-    'Many thanks for agreeing to chair the {session} session at RSECon2022. Please find below some guidance on your role as session chair.',
+    'Many thanks for agreeing to chair the <b>{session}</b> session at RSECon2022. Please find below some guidance on your role as session chair.',
     ('Before the session', styles['Heading1']),
     'Your session starts at {start_time}. Please arrive at room <b>{room}</b> 10 minutes in advance of your session. Your room will have a volunteer present to help the event run smoothly—they will manage such things as moderating the Sli.do questions, ensuring speakers have microphones, and loading up presentations onto the PC to display. Please introduce yourself to your volunteer before the start of the session.',
-    'In case you need it, the username for the PC is {login_username}, and the password is {login_password}.',
+    'In case you need it, the username for the PC is <b>{login_username}</b>, and the password is <b>{login_password}</b>.',
     ('Before each talk', styles['Heading1']),
     'Please briefly introduce the speaker—a full bio is not needed, just the presenter’s name and the title of the talk. Remind the audience that they can ask questions via Sli.do.',
     'Once the speaker begins, set a timer.',
     ('During each talk', styles['Heading1']),
     'Listen to the talk and identify possible questions to ask.',
-    'You can keep track of questions by going to Sli.do room {slido_room_number}.',
+    'You can keep track of questions by going to Sli.do room <b>{slido_room_number}</b>.',
     'Talks are 20 minutes long, with 5 further minutes for questions. After 15 minutes, please show the “5 minutes remaining” sign to the speaker. Similarly, at 18, 19, and 20 minutes show the 2, 1, and 0 minutes remaining signs.',
     'If at 20 minutes the speaker shows no sign of concluding, then please stand up and look conspicuous. If after 30 seconds the speaker still shows no sign of concluding, then please interrupt them and ask them to briefly wrap up. (We have the luxury of a few minutes’ buffer between talks. This is to enable people to move between rooms, and to set up the next speaker; it is not to enable speakers to overrun.)',
     ('After each talk', styles['Heading1']),
@@ -55,7 +59,7 @@ def format_elements(template, session):
         else:
             text, style = element
         text = text.format(
-            chair=session['Confirmed chair'] if session['Confirmed chair'] else 'chair',
+            chair=session['Confirmed chair'] if isinstance(session['Confirmed chair'], str) else 'chair',
             session=session['Session'],
             start_time=session['Session start time'],
             room=session['Room'],
@@ -96,16 +100,17 @@ def tabulate(talks):
         table_content.append([
             talk['Program submission start time'].split()[3][:-3],
             talk['Program submission end time'].split()[3][:-3],
-            talk['Presenting'],
-            talk['Title'],
+            Paragraph(talk['Presenting']),
+            Paragraph(talk['Title']),
             talk['Event type']
         ])
 
     table_style = [
-        ('LINEABOVE', (0, 1), (-1, 1), 3, black)
+        ('LINEABOVE', (0, 1), (-1, 1), 1, black),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
     ]
 
-    table = Table(table_content)
+    table = Table(table_content, colWidths=[18 * mm, 18 * mm, 35 * mm, 60 * mm, 30 * mm])
     table.setStyle(table_style)
     table.hAlign = 'CENTER'
 
@@ -116,6 +121,8 @@ def generate_infosheet_contents(session, talks):
     doc_contents = format_elements(BASE_DOC, session)
     if session['Has panel']:
         doc_contents.extend(format_elements(PANEL_SECTION, session))
+        doc_contents.append(PageBreak())
+
     doc_contents.append(Paragraph('Running order', styles['Heading1']))
     doc_contents.append(tabulate(talks))
 
@@ -146,6 +153,8 @@ def main():
     sessions = read_csv(args.sessions)
     talks = read_csv(args.talks)
     for _, session in sessions.iterrows():
+        if not isinstance(session['Session'], str):
+            continue
         generate_infosheet(
             session,
             get_talks(session, talks),
