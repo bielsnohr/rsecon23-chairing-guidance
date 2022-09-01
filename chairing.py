@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from datetime import datetime, timedelta
+
 from io import BytesIO
 
 from pandas import read_csv
@@ -93,13 +95,19 @@ def generate_infosheet(session, talks, filename):
         f.write(buf.getvalue())
 
 
+def fix_time(oa_time_string):
+    incorrect_time = datetime.strptime(oa_time_string.split()[3][:-3], "%H:%M")
+    correct_time = incorrect_time - timedelta(hours=1)
+    return correct_time.time().strftime("%H:%M")
+
+
 def tabulate(talks):
     table_content = [["Start time", "End time", "Speaker", "Title", "Event type"]]
     for _, talk in talks.sort_values("Program submission start time").iterrows():
         table_content.append(
             [
-                talk["Program submission start time"].split()[3][:-3],
-                talk["Program submission end time"].split()[3][:-3],
+                fix_time(talk["Program submission start time"]),
+                fix_time(talk["Program submission end time"]),
                 Paragraph(talk["Presenting"]),
                 Paragraph(talk["Title"]),
                 talk["Event type"],
