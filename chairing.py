@@ -52,6 +52,11 @@ PANEL_SECTION = [
     "If at 50 minutes the panel shows no signs of wrapping up, please stand up and look conspicuous. If after another minute the discussion or monologue is still continuing and the chair hasn’t taken action, then please interrupt them and ask the chair to wrap things up.",
 ]
 
+REMOTE_SECTION = [
+    ("Remote presenters", styles["Heading1"]),
+    "Your session includes a remote presenter. Your volunteer will launch Zoom on the PC in full screen mode, and the speaker will present via a shared screen. Please give the speaker audible notification of the remaining time, as they may not be looking at the camera feed from the room while presenting.",
+]
+
 
 def format_elements(template, session):
     elements = []
@@ -112,6 +117,7 @@ def tabulate(talks):
                 Paragraph(talk["Presenting"]),
                 Paragraph(talk["Title"]),
                 talk["Event type"],
+                "Remote speaker" if talk["Remote presentation"] else "",
             ]
         )
 
@@ -121,7 +127,7 @@ def tabulate(talks):
     ]
 
     table = Table(
-        table_content, colWidths=[18 * mm, 18 * mm, 35 * mm, 60 * mm, 30 * mm]
+        table_content, colWidths=[18 * mm, 18 * mm, 28 * mm, 65 * mm, 15 * mm, 15 * mm]
     )
     table.setStyle(table_style)
     table.hAlign = "CENTER"
@@ -134,6 +140,9 @@ def generate_infosheet_contents(session, talks):
     if session["Has panel"] == "Yes":
         doc_contents.extend(format_elements(PANEL_SECTION, session))
         doc_contents.append(PageBreak())
+
+    if talks["Remote presentation"].any():
+        doc_contents.extend(format_elements(REMOTE_SECTION, session))
 
     doc_contents.append(Paragraph("Running order", styles["Heading1"]))
     doc_contents.append(tabulate(talks))
