@@ -36,11 +36,11 @@ BASE_DOC = [
     "Talks are 20 minutes long, with 5 further minutes for questions. After 15 minutes, please show the “5 minutes remaining” sign to the speaker. Similarly, at 18, 19, and 20 minutes show the 2, 1, and 0 minutes remaining signs.",
     "If at 20 minutes the speaker shows no sign of concluding, then please stand up and look conspicuous. If after 30 seconds the speaker still shows no sign of concluding, then please interrupt them and ask them to briefly wrap up. (We have the luxury of a few minutes’ buffer between talks. This is to enable people to move between rooms, and to set up the next speaker; it is not to enable speakers to overrun.)",
     ("After each talk", styles["Heading1"]),
-    "After each talk is 5 minutes of Q&A. The volunteer will switch the display to show Sli.do. Invite the audience to ask questions and upvote others’ questions at the link on screen.",
-    "Read out the questions from Sli.do in descending order of upvotes. If there are no questions on Slido at the start of the Q&A then please ask one or two questions yourself.",
+    "After each talk is 5 minutes of Q&amp;A. The volunteer will switch the display to show Sli.do. Invite the audience to ask questions and upvote others’ questions at the link on screen.",
+    "Read out the questions from Sli.do in descending order of upvotes. If there are no questions on Slido at the start of the Q&amp;A then please ask one or two questions yourself.",
     "Please do not take questions from the room unless and until questions from Slido have been exhausted.",
-    "If participants in the room try to get into protracted discussions with the speaker during the Q&A, please encourage them to use the coffee breaks to continue the discussion.",
-    "Please keep an eye on the time during the Q&A and close off questions in sufficient time to allow movement between rooms and setting up for the next speaker.",
+    "If participants in the room try to get into protracted discussions with the speaker during the Q&amp;A, please encourage them to use the coffee breaks to continue the discussion.",
+    "Please keep an eye on the time during the Q&amp;A and close off questions in sufficient time to allow movement between rooms and setting up for the next speaker.",
     "At this point you can pre-announce the next speaker and the start time of their talk.",
 ]
 
