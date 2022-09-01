@@ -172,7 +172,7 @@ def main():
     parser.add_argument("filename_prefix")
     args = parser.parse_args()
 
-    sessions = read_csv(args.sessions)
+    sessions = read_csv(args.sessions, dtype={"Slido room number": str})
     talks = read_csv(args.talks)
     for _, session in sessions.iterrows():
         if not isinstance(session["Session"], str):
