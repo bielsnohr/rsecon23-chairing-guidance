@@ -1,6 +1,6 @@
 SESSIONS_FILE = sessions.csv
 TALKS_FILE = talks.csv
-OUT_DIR = test
+OUT_DIR = infosheets
 
 .PHONY : clean infosheets
 
