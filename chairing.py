@@ -114,6 +114,14 @@ def fix_time(oa_time_string):
 def tabulate(talks):
     table_content = [["Start time", "End time", "Speaker", "Title", "Event type"]]
     for _, talk in talks.sort_values("Program submission start time").iterrows():
+        if talk["Remote presentation"]:
+            if talk["Event type"].startswith("Panel"):
+                # Ugly hack to avoid text crashing but avoid consuming too much width
+                remote_tag = "                    Remote panelist"
+            else:
+                remote_tag = "Remote speaker"
+        else:
+            remote_tag = ""
         table_content.append(
             [
                 fix_time(talk["Program submission start time"]),
@@ -121,7 +129,7 @@ def tabulate(talks):
                 Paragraph(talk["Presenting"]),
                 Paragraph(talk["Title"]),
                 talk["Event type"],
-                "Remote speaker" if talk["Remote presentation"] else "",
+                remote_tag,
             ]
         )
 
