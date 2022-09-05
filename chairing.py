@@ -55,6 +55,7 @@ PANEL_SECTION = [
 REMOTE_SECTION = [
     ("Remote presenters", styles["Heading1"]),
     "Your session includes a remote presenter. Your volunteer will launch Zoom on the PC in full screen mode, and the speaker will present via a shared screen. Please give the speaker audible notification of the remaining time, as they may not be looking at the camera feed from the room while presenting.",
+    "For reference, the link to join the meeting is {zoom_link}. Meeting ID <b>{zoom_id}</b>, passcode <b>{zoom_passcode}</b>."
 ]
 
 
@@ -77,6 +78,9 @@ def format_elements(template, session):
             login_username=session["PC login username"],
             login_password=session["PC login password"],
             slido_room_number=session["Slido room number"],
+            zoom_link=session["Zoom link"],
+            zoom_id=session["Zoom meeting ID"],
+            zoom_passcode=session["Zoom passcode"]
         )
         elements.append(Paragraph(text, style))
     return elements
@@ -172,7 +176,10 @@ def main():
     parser.add_argument("filename_prefix")
     args = parser.parse_args()
 
-    sessions = read_csv(args.sessions, dtype={"Slido room number": str})
+    sessions = read_csv(args.sessions, dtype={
+        "Slido room number": str,
+        "Zoom passcode": str
+    })
     talks = read_csv(args.talks)
     for _, session in sessions.iterrows():
         if not isinstance(session["Session"], str):
