@@ -31,7 +31,6 @@ The information about Slido is specified within `chairing.py` in global variable
 `SLIDO_*`. Modify those as needed, or add another column in the `sessions.csv` and handle that in
 the relevant sections of `chairing.py`.
 
-
 ## Usage
 
 To activate the conda environment:
@@ -44,7 +43,9 @@ To run the tool:
 
 This will place PDFs of guidance for each session into a directory called `infosheets`.
 
+## Past Quirks
 
-## Quirks
-
-At time of writing, Oxford Abstracts gets confused over time zones and reports the submission start and end times offset by one hour during British Summer Time. This is currently dealt with by subtracting one hour. If Oxford Abstracts fixes their bug, this can be removed. If before the bug is fixed then this is used for events not taking place during daylight savings time, then this should also be disabled.
+In a previous iteration, Oxford Abstracts got confused over time zones and reported the submission
+start and end times offset by one hour during British Summer Time. This bug has been fixed, but it
+is worth being aware of in case it pops up again. Modify the `format_time` function and look at `git
+blame` to see how it was handled in the past.
