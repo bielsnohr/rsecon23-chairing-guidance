@@ -1,0 +1,6 @@
+Submitter first name,Submitter last name,Program session,Session start time,Session end time,Program individual start time,Program individual end time,Presenting,Event type,Title,Remote presentation
+Joe,Bloggs,Python Walkthroughs,"Wednesday, 6th September, 2023 03:20","Wednesday, 6th September, 2023 04:50","Wednesday, 6th September, 2023 03:20","Wednesday, 6th September, 2023 04:05",Joe Bloggs,Walkthrough,Simplifying Python Dependencies using Poetry,FALSE
+Jane,Doe,Python Walkthroughs,"Wednesday, 6th September, 2023 03:20","Wednesday, 6th September, 2023 04:50","Wednesday, 6th September, 2023 04:05","Wednesday, 6th September, 2023 04:50",Jane Doe,Walkthrough,Isn't Poetry the Best?,FALSE
+Anon,Person,Best of RSE,"Thursday, 7th September, 2023 11:00","Thursday, 7th September, 2023 12:30","Thursday, 7th September, 2023 11:00","Thursday, 7th September, 2023 11:25",Anon Person,Talk,Something about Optimisation,FALSE
+An,Rse,Best of RSE,"Thursday, 7th September, 2023 11:00","Thursday, 7th September, 2023 12:30","Thursday, 7th September, 2023 11:30","Thursday, 7th September, 2023 11:55","An Rse",Panel (audience-led),All RSEs do this Terrible Thing,FALSE
+Some,Body,Best of RSE,"Thursday, 7th September, 2023 11:00","Thursday, 7th September, 2023 12:30","Tuesday, 5th September, 2023 12:00","Tuesday, 5th September, 2023 12:25",Some Body,Talk,Community for the Win,TRUE
