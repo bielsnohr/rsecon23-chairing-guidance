@@ -22,7 +22,7 @@ black = CMYKColor(0, 0, 0, 1)
 
 BASE_DOC = [
     "Dear {chair},",
-    "Many thanks for agreeing to chair the <b>{session}</b> session at RSECon2022. Please find below some guidance on your role as session chair.",
+    "Many thanks for agreeing to chair the <b>{session}</b> session at RSECon23. Please find below some guidance on your role as session chair.",
     ("Before the session", styles["Heading1"]),
     "Your session starts at <b>{start_time} on {day}</b>. Please arrive at room <b>{room}</b> 10 minutes in advance of your session. Your room will have a volunteer present to help the event run smoothly—they will manage such things as moderating the Sli.do questions, ensuring speakers have microphones, and loading up presentations onto the PC to display. Please introduce yourself to your volunteer before the start of the session.",
     "The speakers in your session should also be present before the start of the session to introduce themselves. <b>Please confirm the correct pronunciation of their names</b>, especially if the name is unfamiliar to you.",

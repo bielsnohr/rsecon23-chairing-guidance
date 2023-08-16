@@ -1,6 +1,6 @@
-# Chairing guidance generator for RSECon2022
+# Chairing guidance generator for RSECon23
 
-This tool generates personalised guidance for session chairs for RSECon2022.
+This tool generates personalised guidance for session chairs for RSECon23.
 
 ## Setup
 
