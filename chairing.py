@@ -69,6 +69,11 @@ PANEL_SECTION = [
     "If at 50 minutes the panel shows no signs of wrapping up, please stand up and look conspicuous. If after another minute the discussion or monologue is still continuing and the chair hasn't taken action, then please interrupt them and ask the chair to wrap things up.",
 ]
 
+WALKTHROUGH_SECTION = [
+    ("Walkthroughs", styles["Heading1"]),
+    "Your session includes a Walkthrough. Timings are slightly different than for talks given above, although most of the other guidance holds true. TODO explain timings and confirm with @cc-a that there are no gaps between walkthroughs.",
+]
+
 REMOTE_SECTION = [
     ("Remote presenters", styles["Heading1"]),
     "Your session includes a remote presenter. Your volunteer will launch Zoom on the PC in full screen mode, and the speaker will present via a shared screen. Please give the speaker audible notification of the remaining time, as they may not be looking at the camera feed from the room while presenting.",
@@ -182,7 +187,9 @@ def generate_infosheet_contents(session: Series, talks: DataFrame):
     doc_contents = format_elements(BASE_DOC, session)
     if any(talks["Event type"].str.startswith("Panel")):
         doc_contents.extend(format_elements(PANEL_SECTION, session))
-        doc_contents.append(PageBreak())
+
+    if session["Session"].count("Walkthrough"):
+        doc_contents.extend(format_elements(WALKTHROUGH_SECTION, session))
 
     if talks["Remote presentation"].any():
         doc_contents.extend(format_elements(REMOTE_SECTION, session))
