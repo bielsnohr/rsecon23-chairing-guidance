@@ -26,7 +26,6 @@ Two files are needed:
   * `Room` - the room in which the session is scheduled
   * `PC login username` - the username to log in to the PC used to present
   * `PC login password` - the password to log in to the PC used to present
-  * `Slido room number` - the room number to connect to the Sli.do for the session
 
 
 ## Usage
