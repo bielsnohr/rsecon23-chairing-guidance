@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 
-from datetime import datetime, timedelta
-
+from datetime import datetime
 from io import BytesIO
 
 from pandas import DataFrame, Series, read_csv
-
-from reportlab.platypus import SimpleDocTemplate, PageBreak, Paragraph, Table
 from reportlab.lib.colors import CMYKColor
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import mm
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Table
 
 styles = getSampleStyleSheet()
 styles["Heading1"].spaceBefore = 12
