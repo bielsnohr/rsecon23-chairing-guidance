@@ -105,7 +105,23 @@ def generate_infosheet(session, talks, filename):
         f.write(buf.getvalue())
 
 
-def fix_time(oa_time_string):
+def fix_time(oa_time_string: str) -> str:
+    """Fix the time exported by Oxford Abstracts
+
+    There was a bug in OA that meant the time string produced by an export was one hour
+    later in the day. However, this bug has now been fixed, so this function is no
+    longer used. It is retained in case the bug resurfaces at any point.
+
+    Parameters
+    ----------
+    oa_time_string : str
+        The time string produced by Oxford Abstracts
+
+    Returns
+    -------
+    str
+        The corrected and formatted time string
+    """
     incorrect_time = datetime.strptime(oa_time_string.split()[3][:-3], "%H:%M")
     correct_time = incorrect_time - timedelta(hours=1)
     return correct_time.time().strftime("%H:%M")
@@ -124,8 +140,8 @@ def tabulate(talks):
             remote_tag = ""
         table_content.append(
             [
-                fix_time(talk["Program submission start time"]),
-                fix_time(talk["Program submission end time"]),
+                talk["Program submission start time"],
+                talk["Program submission end time"],
                 Paragraph(talk["Presenting"]),
                 Paragraph(talk["Title"]),
                 talk["Event type"],
