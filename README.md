@@ -27,6 +27,10 @@ Two files are needed:
   * `PC login username` - the username to log in to the PC used to present
   * `PC login password` - the password to log in to the PC used to present
 
+The information about Slido is specified within `chairing.py` in global variables prefixed with
+`SLIDO_*`. Modify those as needed, or add another column in the `sessions.csv` and handle that in
+the relevant sections of `chairing.py`.
+
 
 ## Usage
 
