@@ -41,7 +41,7 @@ BASE_DOC = [
     "Many thanks for agreeing to chair the <b>{session}</b> session at RSECon23. Please find below some guidance on your role as session chair.",
     ("Before the session", styles["Heading1"]),
     "Your session starts at <b>{start_time} on {day}</b>. Please arrive at room <b>{room}</b> 10 minutes in advance of your session. Your room will have a volunteer and stream director present to help the event run smoothly—they will manage such things as moderating the Slido questions, ensuring speakers have microphones, loading up presentations onto the PC to display, and ensuring remote presenters are connected to the Zoom call and audible. Please introduce yourself to your volunteer and stream director before the start of the session.",
-    "The speakers in your session should also be present before the start of the session to introduce themselves. <b>Please confirm the correct pronunciation of their names</b>, especially if the name is unfamiliar to you.",
+    "The speakers in your session should also be present before the start of the session to introduce themselves. <b>Please confirm the correct pronunciation of their names and pronouns</b>, especially if the name is unfamiliar to you.",
     "In case you need it, the username for the PC in the room is <b>{login_username}</b>, and the password is <b>{login_password}</b>, but again, your room volunteer should be able to handle anything with this machine. Ensure that the volunteer or stream director has the Slido wall view on one of the projected screens. The direct link <a href={slido_room_wall_link}><u>is here</u></a>. Alternatively, navigate to <a href={slido_event_wall}><u>{slido_event_wall}</u></a> and select the room {room}. It might drop you into the wrong room by default. Click next to the coloured dot at the top with text starting 'GH' to get a drop down of rooms.",
     ("Before each talk", styles["Heading1"]),
     "Please briefly introduce the speaker—a full bio is not needed, just the presenter's name and the title of the talk. Only do this after the buffer time between talks has elapsed and you have confirmed that the speaker is ready to start.",
@@ -63,16 +63,15 @@ BASE_DOC = [
 
 PANEL_SECTION = [
     ("Panels", styles["Heading1"]),
-    "Panels have their own chairs who take on some of the responsibilities above. Panels last 50 minutes, with 10 minutes slack to allow the panel to assemble and get ready at the start, and also to prepare for the next event at the end.",
+    "Your session contains a panel session. Panels have their own chairs who take on some of the responsibilities above. Panels last 50 minutes, with 10 minutes slack to allow the panel to assemble and get ready at the start, and also to prepare for the next event at the end. However, due to scheduling constraints this buffer might not always be possible. Therefore, please ensure any talks before a panel end promptly to allow the panel to get ready.",
     "Once the panelists have assembled and have microphones ready, then please introduce the panel chair and topic similarly as for talks. Once the panel chair takes over and starts to introduce the panelists, please start a timer.",
     "After 45 minutes, please show the “5 minutes remaining” sign to the panel chair. Similarly, at 48, 49, and 50 minutes show the 2, 1, and 0 minutes remaining signs.",
-    "If at 50 minutes the panel shows no signs of wrapping up, please stand up and look conspicuous. If after another minute the discussion or monologue is still continuing and the chair hasn’t taken action, then please interrupt them and ask the chair to wrap things up.",
+    "If at 50 minutes the panel shows no signs of wrapping up, please stand up and look conspicuous. If after another minute the discussion or monologue is still continuing and the chair hasn't taken action, then please interrupt them and ask the chair to wrap things up.",
 ]
 
 REMOTE_SECTION = [
     ("Remote presenters", styles["Heading1"]),
     "Your session includes a remote presenter. Your volunteer will launch Zoom on the PC in full screen mode, and the speaker will present via a shared screen. Please give the speaker audible notification of the remaining time, as they may not be looking at the camera feed from the room while presenting.",
-    "For reference, the link to join the meeting is {zoom_link}. Meeting ID <b>{zoom_id}</b>, passcode <b>{zoom_passcode}</b>.",
 ]
 
 
@@ -98,9 +97,6 @@ def format_elements(template, session):
             slido_event_link=SLIDO_EVENT_LINK,
             slido_event_wall=SLIDO_EVENT_WALL,
             slido_room_wall_link=SLIDO_ROOM_WALL_MAP[session["Room"]],
-            zoom_link=session["Zoom link"],
-            zoom_id=session["Zoom meeting ID"],
-            zoom_passcode=session["Zoom passcode"],
         )
         elements.append(Paragraph(text, style))
     return elements
@@ -125,12 +121,12 @@ def generate_infosheet(session: Series, talks: DataFrame, filename: str):
         f.write(buf.getvalue())
 
 
-def fix_time(oa_time_string: str) -> str:
-    """Fix the time exported by Oxford Abstracts
+def format_time(oa_time_string: str) -> str:
+    """Format the time exported by Oxford Abstracts
 
     There was a bug in OA that meant the time string produced by an export was one hour
     later in the day. However, this bug has now been fixed, so this function is no
-    longer used. It is retained in case the bug resurfaces at any point.
+    longer used for that purpose, but simply to format the time correctly.
 
     Parameters
     ----------
@@ -140,11 +136,10 @@ def fix_time(oa_time_string: str) -> str:
     Returns
     -------
     str
-        The corrected and formatted time string
+        The time string in HH:MM format
     """
-    incorrect_time = datetime.strptime(oa_time_string.split()[3][:-3], "%H:%M")
-    correct_time = incorrect_time - timedelta(hours=1)
-    return correct_time.time().strftime("%H:%M")
+    oa_time = datetime.strptime(oa_time_string.split(",")[2][6:], "%H:%M")
+    return oa_time.time().strftime("%H:%M")
 
 
 def tabulate(talks: DataFrame) -> Table:
@@ -160,8 +155,8 @@ def tabulate(talks: DataFrame) -> Table:
             remote_tag = ""
         table_content.append(
             [
-                talk["Program individual start time"],
-                talk["Program individual end time"],
+                format_time(talk["Program individual start time"]),
+                format_time(talk["Program individual end time"]),
                 Paragraph(talk["Presenting"]),
                 Paragraph(talk["Title"]),
                 talk["Event type"],
@@ -220,9 +215,7 @@ def main():
     parser.add_argument("filename_prefix")
     args = parser.parse_args()
 
-    sessions: DataFrame = read_csv(
-        args.sessions, dtype={"Slido event code": str, "Zoom passcode": str}
-    )
+    sessions: DataFrame = read_csv(args.sessions, dtype={"Slido event code": str})
     talks: DataFrame = read_csv(args.talks)
     for _, session in sessions.iterrows():
         if not isinstance(session["Session"], str):
