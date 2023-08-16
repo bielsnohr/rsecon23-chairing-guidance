@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from io import BytesIO
 
-from pandas import read_csv
+from pandas import DataFrame, Series, read_csv
 
 from reportlab.platypus import SimpleDocTemplate, PageBreak, Paragraph, Table
 from reportlab.lib.colors import CMYKColor
@@ -55,7 +55,7 @@ PANEL_SECTION = [
 REMOTE_SECTION = [
     ("Remote presenters", styles["Heading1"]),
     "Your session includes a remote presenter. Your volunteer will launch Zoom on the PC in full screen mode, and the speaker will present via a shared screen. Please give the speaker audible notification of the remaining time, as they may not be looking at the camera feed from the room while presenting.",
-    "For reference, the link to join the meeting is {zoom_link}. Meeting ID <b>{zoom_id}</b>, passcode <b>{zoom_passcode}</b>."
+    "For reference, the link to join the meeting is {zoom_link}. Meeting ID <b>{zoom_id}</b>, passcode <b>{zoom_passcode}</b>.",
 ]
 
 
@@ -80,13 +80,13 @@ def format_elements(template, session):
             slido_room_number=session["Slido room number"],
             zoom_link=session["Zoom link"],
             zoom_id=session["Zoom meeting ID"],
-            zoom_passcode=session["Zoom passcode"]
+            zoom_passcode=session["Zoom passcode"],
         )
         elements.append(Paragraph(text, style))
     return elements
 
 
-def generate_infosheet(session, talks, filename):
+def generate_infosheet(session: Series, talks: DataFrame, filename: str):
     buf = BytesIO()
 
     output_doc = SimpleDocTemplate(
@@ -127,9 +127,9 @@ def fix_time(oa_time_string: str) -> str:
     return correct_time.time().strftime("%H:%M")
 
 
-def tabulate(talks):
+def tabulate(talks: DataFrame) -> Table:
     table_content = [["Start time", "End time", "Speaker", "Title", "Event type"]]
-    for _, talk in talks.sort_values("Program submission start time").iterrows():
+    for _, talk in talks.sort_values("Program individual start time").iterrows():
         if talk["Remote presentation"]:
             if talk["Event type"].startswith("Panel"):
                 # Ugly hack to avoid text crashing but avoid consuming too much width
@@ -140,8 +140,8 @@ def tabulate(talks):
             remote_tag = ""
         table_content.append(
             [
-                talk["Program submission start time"],
-                talk["Program submission end time"],
+                talk["Program individual start time"],
+                talk["Program individual end time"],
                 Paragraph(talk["Presenting"]),
                 Paragraph(talk["Title"]),
                 talk["Event type"],
@@ -163,9 +163,9 @@ def tabulate(talks):
     return table
 
 
-def generate_infosheet_contents(session, talks):
+def generate_infosheet_contents(session: Series, talks: DataFrame):
     doc_contents = format_elements(BASE_DOC, session)
-    if session["Has panel"] == "Yes":
+    if any(talks["Event type"].str.startswith("Panel")):
         doc_contents.extend(format_elements(PANEL_SECTION, session))
         doc_contents.append(PageBreak())
 
@@ -187,7 +187,7 @@ def get_filename(session):
     return filename.replace("/", "_")
 
 
-def get_talks(session, talks):
+def get_talks(session: Series, talks: DataFrame) -> DataFrame:
     return talks[talks["Program session"] == session["Session"]]
 
 
@@ -200,11 +200,10 @@ def main():
     parser.add_argument("filename_prefix")
     args = parser.parse_args()
 
-    sessions = read_csv(args.sessions, dtype={
-        "Slido room number": str,
-        "Zoom passcode": str
-    })
-    talks = read_csv(args.talks)
+    sessions: DataFrame = read_csv(
+        args.sessions, dtype={"Slido room number": str, "Zoom passcode": str}
+    )
+    talks: DataFrame = read_csv(args.talks)
     for _, session in sessions.iterrows():
         if not isinstance(session["Session"], str):
             continue
