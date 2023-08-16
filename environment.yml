@@ -3,58 +3,80 @@ channels:
   - defaults
   - conda-forge
 dependencies:
+  - _libgcc_mutex=0.1
+  - _openmp_mutex=4.5
   - blas=1.0
-  - bottleneck=1.3.5
+  - bottleneck=1.3.7
   - bzip2=1.0.8
-  - ca-certificates=2022.07.19
-  - certifi=2022.6.15
-  - freetype=2.11.0
+  - ca-certificates=2023.7.22
+  - certifi=2023.7.22
+  - freetype=2.12.1
   - giflib=5.2.1
+  - icu=72.1
   - intel-openmp=2021.4.0
+  - jbig=2.1
   - jpeg=9e
   - lcms2=2.12
+  - ld_impl_linux-64=2.40
   - lerc=3.0
-  - libcxx=12.0.0
+  - libcxx=16.0.6
+  - libcxxabi=16.0.6
   - libdeflate=1.8
-  - libffi=3.3
-  - libpng=1.6.37
-  - libtiff=4.4.0
+  - libffi=3.4.2
+  - libgcc-ng=13.1.0
+  - libhwloc=2.9.2
+  - libiconv=1.17
+  - libnsl=2.0.0
+  - libpng=1.6.39
+  - libsqlite=3.42.0
+  - libstdcxx-ng=13.1.0
+  - libtiff=4.3.0
+  - libuuid=2.38.1
   - libwebp=1.2.2
   - libwebp-base=1.2.2
-  - lz4-c=1.9.3
-  - make=4.2.1
+  - libxml2=2.11.5
+  - libzlib=1.2.13
+  - llvm-openmp=16.0.6
+  - lz4-c=1.9.4
+  - make=4.3
   - mkl=2021.4.0
   - mkl-service=2.4.0
   - mkl_fft=1.3.1
   - mkl_random=1.2.2
-  - ncurses=6.3
+  - ncurses=6.4
   - numexpr=2.8.3
   - numpy=1.23.1
   - numpy-base=1.23.1
-  - openssl=1.1.1q
-  - packaging=21.3
-  - pandas=1.4.3
-  - pillow=9.2.0
-  - pip=22.1.2
-  - pyparsing=3.0.9
-  - python=3.10.4
+  - olefile=0.46
+  - openjpeg=2.5.0
+  - openssl=3.1.2
+  - packaging=23.1
+  - pandas=2.0.3
+  - pillow=8.4.0
+  - pip=23.2.1
+  - pyparsing=3.1.1
+  - python=3.10.12
   - python-dateutil=2.8.2
-  - pytz=2022.1
-  - readline=8.1.2
+  - python-tzdata=2023.3
+  - python_abi=3.10
+  - pytz=2023.3
+  - readline=8.2
   - reportlab=3.5.67
-  - setuptools=63.4.1
+  - rocm-smi=5.6.0
+  - setuptools=68.0.0
   - six=1.16.0
-  - sqlite=3.39.2
+  - sqlite=3.42.0
+  - tbb=2021.10.0
   - tk=8.6.12
-  - tzdata=2022a
-  - wheel=0.37.1
-  - xz=5.2.5
-  - zlib=1.2.12
+  - tzdata=2023c
+  - wheel=0.41.1
+  - xz=5.2.6
+  - zlib=1.2.13
   - zstd=1.5.2
   - pip:
-    - black==22.8.0
-    - click==8.1.3
-    - mypy-extensions==0.4.3
-    - pathspec==0.10.0
-    - platformdirs==2.5.2
-    - tomli==2.0.1
+      - black==22.8.0
+      - click==8.1.3
+      - mypy-extensions==0.4.3
+      - pathspec==0.10.0
+      - platformdirs==2.5.2
+      - tomli==2.0.1
