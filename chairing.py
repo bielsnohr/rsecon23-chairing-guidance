@@ -36,7 +36,7 @@ SLIDO_ROOM_WALL_MAP = {
 
 BASE_DOC = [
     "Dear {chair},",
-    "Many thanks for agreeing to chair the <b>{session}</b> session at RSECon23. Please find below some guidance on your role as session chair.",
+    "Many thanks for agreeing to chair the <b>{session}</b> session at RSECon23. Please find below some guidance on your role as session chair. Please note that this guidance refers primarily to talks, but relevant adaptations are provided at the end for walkthroughs and panels.",
     ("Before the session", styles["Heading1"]),
     "Your session starts at <b>{start_time} on {day}</b>. Please arrive at room <b>{room}</b> 10 minutes in advance of your session. Your room will have a volunteer and stream director present to help the event run smoothly—they will manage such things as moderating the Slido questions, ensuring speakers have microphones, loading up presentations onto the PC to display, and ensuring remote presenters are connected to the Zoom call and audible. Please introduce yourself to your volunteer and stream director before the start of the session.",
     "The speakers in your session should also be present before the start of the session to introduce themselves. <b>Please confirm the correct pronunciation of their names and pronouns</b>, especially if the name is unfamiliar to you.",
@@ -69,7 +69,7 @@ PANEL_SECTION = [
 
 WALKTHROUGH_SECTION = [
     ("Walkthroughs", styles["Heading1"]),
-    "Your session includes a Walkthrough. Timings are slightly different than for talks given above, although most of the other guidance holds true. TODO explain timings and confirm with @cc-a that there are no gaps between walkthroughs.",
+    "You are chairing a Walkthrough session. Timings are slightly different than those for talks given above, although most of the other guidance holds true. Walkthroughs are 30 minutes, with 15 further minutes for questions. Please use the time remaining signs as described above but starting at 25 minutes. Please also note that walkthroughs are scheduled back-to-back with no buffer time.",
 ]
 
 REMOTE_SECTION = [
