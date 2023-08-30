@@ -11,3 +11,4 @@ htmlcov
 *.csv
 
 infosheets/
+test_output/
